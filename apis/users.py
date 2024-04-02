@@ -30,7 +30,6 @@ def login():
             'user_role' : user[5],
             'user_team' : user[18],
             'user_prev' : user[19]
-
         }
         access_token = create_access_token(identity=user_data)
 
