@@ -29,7 +29,6 @@ def check_team_leader():
             'team_leader': True,
             'team_name': team_name,
             'team_members': [{'user_name': member[0], 'last_name': member[1], 'email': member[2], 'privilege': member[3], 'Id': member[4], 'real_team_leader': True if member[4] in [row[0] for row in cursor.execute("SELECT Team_Leader FROM TriSQR_Team where Team_Leader = ?", (member[4],))] else False} for member in members]
-            
         }
         return jsonify(response)
     else:

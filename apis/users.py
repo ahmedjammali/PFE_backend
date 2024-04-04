@@ -21,7 +21,6 @@ def login():
     user = cursor.fetchone()
 
     if user:
-        # Extract user data
         user_data = {
             'user_id': user[0],
             'username': user[1],

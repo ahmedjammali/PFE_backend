@@ -4,6 +4,7 @@ from flask_cors import CORS
 from apis.users import user_blueprint
 from apis.team import team_blueprint
 from apis.privilege import privilege_blueprint
+from apis.folder import Folder_blueprint
 
 
 app = Flask(__name__)
@@ -14,6 +15,7 @@ CORS(app)
 app.register_blueprint(user_blueprint, url_prefix='/user')
 app.register_blueprint(team_blueprint , url_prefix = '/team')
 app.register_blueprint(privilege_blueprint, url_prefix='/privilege' )
+app.register_blueprint(Folder_blueprint ,url_prefix='/folder')
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -22,7 +22,6 @@ def modify_privilege():
     user = cursor.fetchone()
 
     if user:
-        # Update privilege based on user role
         privilege = 0
         if user_role == 'read':
             privilege = 1
