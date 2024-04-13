@@ -7,6 +7,7 @@ from apis.privilege import privilege_blueprint
 from apis.folder import Folder_blueprint
 from apis.files import Files_blueprint
 from apis.GoogleDoc import doc_blueprint
+from apis.chatGPT import GPT_blueprint
 
 
 app = Flask(__name__)
@@ -20,6 +21,7 @@ app.register_blueprint(privilege_blueprint, url_prefix='/privilege' )
 app.register_blueprint(Folder_blueprint ,url_prefix='/folder')
 app.register_blueprint(Files_blueprint ,url_prefix='/files')
 app.register_blueprint(doc_blueprint ,url_prefix='/drive')
+app.register_blueprint(GPT_blueprint ,url_prefix='/GPT')
 
 if __name__ == '__main__':
     app.run(debug=True)
