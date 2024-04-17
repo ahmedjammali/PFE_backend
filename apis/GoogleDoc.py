@@ -146,6 +146,7 @@ def modify_doc():
                                 row['tableCells'][0]['content'][0]['paragraph']['elements'][0]['textRun']['content'].strip()  # Extract text content from the first cell of each row
                                 for row in table['tableRows']  # Iterate through each row of the table
                             ]
+                            print(headers)
                             
                             # Check if the specified header exists in the table
                             print("hello4")
@@ -180,10 +181,6 @@ def modify_doc():
                                 return "Table updated successfully."
                             else:
                                 return f'Header "{table_header}" not found in table "{table_title}"'
-                                    
-    
-
-
         return jsonify({'message':" Document updated successfully " })
     except Exception as e:
         error_message = f"Error updating document content: {e}"

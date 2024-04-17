@@ -30,6 +30,8 @@ def add_files():
         cursor.close()
         conn.close()
 
+
+
 @Files_blueprint.route('/get_files', methods=['POST'])
 def get_files():
     conn = get_connection()
@@ -72,8 +74,6 @@ def delete_file():
     try:
         data = request.json
         file_id = data.get('file_id')
-
-
 
         if file_id is None:
             return jsonify({'error': 'there is missing data'}), 400
