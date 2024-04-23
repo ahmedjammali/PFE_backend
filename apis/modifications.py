@@ -63,3 +63,26 @@ def get_modification():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+
+
+@modfication_blueprint.route('/delete_modification', methods=['POST'])
+def delete_modification():
+    conn = get_connection()
+    cursor = conn.cursor()
+    try:
+        data = request.json
+        file_Id = data.get('file_Id')
+
+        if file_Id is None:
+            return jsonify({'error': 'file_id is missing'}), 400
+
+
+        query = "delete from TriSQR_modifications where file_id = ? "
+        cursor.execute(query, (file_Id))
+        conn.commit()
+
+        return jsonify({"message" : "modifications deleted"}) , 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
