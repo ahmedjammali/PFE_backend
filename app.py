@@ -9,6 +9,8 @@ from apis.files import Files_blueprint
 from apis.GoogleDoc import doc_blueprint
 from apis.chatGPT import GPT_blueprint
 from apis.modifications import modfication_blueprint
+from apis.tasks import task_blueprint
+from apis.notes import note_blueprint
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = '123456'  
@@ -23,6 +25,8 @@ app.register_blueprint(Files_blueprint ,url_prefix='/files')
 app.register_blueprint(doc_blueprint ,url_prefix='/drive')
 app.register_blueprint(GPT_blueprint ,url_prefix='/GPT')
 app.register_blueprint(modfication_blueprint ,url_prefix='/modification')
+app.register_blueprint(task_blueprint ,url_prefix='/tasks')
+app.register_blueprint(note_blueprint,url_prefix='/notes')
 
 if __name__ == '__main__':
     app.run(debug=True)

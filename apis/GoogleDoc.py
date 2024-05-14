@@ -81,8 +81,7 @@ def get_text():
     data = request.json  
     doc_id = extract_doc_id(data.get('doc_id'))
     cred_json = data.get('cred')
-    print(doc_id)
-    print(cred_json)
+
     if  cred_json is None or cred_json == "undefined"  :
         flow = InstalledAppFlow.from_client_secrets_file(
                         CREDS_FILE, SCOPES,redirect_uri='http://localhost')
@@ -132,7 +131,6 @@ def modify_doc():
                 table = content['table']
                 table_start_index = content['startIndex']
                 # Find the table based on its title in the first row, second column
-                print("hello 1")
 
                 # Find the table based on its title in the first row, second column
                 for i, row in enumerate(table['tableRows']):
@@ -140,7 +138,7 @@ def modify_doc():
                         cell_content = row['tableCells'][1]['content'][0]['paragraph']['elements'][0]['textRun']['content'].strip()
 
                         if cell_content == table_title:
-                            print("hello3")
+
                             # Find the target column based on the header
                             headers = [
                                 row['tableCells'][0]['content'][0]['paragraph']['elements'][0]['textRun']['content'].strip()  # Extract text content from the first cell of each row
@@ -149,25 +147,23 @@ def modify_doc():
                             print(headers)
                             
                             # Check if the specified header exists in the table
-                            print("hello4")
+
                             if table_header in headers:
                                 target_column_index = headers.index(table_header)
                                 # Update the content of the target cell
-                                print("hello6")
+
                                 row_index = i
                                 print(row_index)
                                 content_to_change =table['tableRows'][target_column_index]['tableCells'][1]
-                                service.documents().batchUpdate(
+                                print(content_to_change)
+                                print(content_to_change['startIndex']+1)
+                                print(content_to_change['endIndex']-1)
+
+                                if (content_to_change['startIndex']+1 == content_to_change['endIndex']-1) :
+                                    print("empty") 
+                                    service.documents().batchUpdate(
                                         documentId=doc_id,
                                         body={'requests': [
-                                            {
-                                                    'deleteContentRange': {
-                                                        'range': {
-                                                            'startIndex': content_to_change['startIndex']+1,
-                                                            'endIndex': content_to_change['endIndex']-1
-                                                        }
-                                                    }
-                                            },
                                             {
                                                 'insertText': {
                                                 'location': {
@@ -178,7 +174,31 @@ def modify_doc():
                                             }
                                         ]}
                                     ).execute()
-                                return "Table updated successfully."
+                                    return "Table updated successfully."
+                                else : 
+                            
+                                    service.documents().batchUpdate(
+                                            documentId=doc_id,
+                                            body={'requests': [
+                                                {
+                                                        'deleteContentRange': {
+                                                            'range': {
+                                                                'startIndex': content_to_change['startIndex']+1,
+                                                                'endIndex': content_to_change['endIndex']-1
+                                                            }
+                                                        }
+                                                },
+                                                {
+                                                    'insertText': {
+                                                    'location': {
+                                                        'index': content_to_change['startIndex']+1
+                                                    },
+                                                    'text': new_content
+                                                }
+                                                }
+                                            ]}
+                                        ).execute()
+                                    return "Table updated successfully."
                             else:
                                 return f'Header "{table_header}" not found in table "{table_title}"'
         return jsonify({'message':" Document updated successfully " })

@@ -55,6 +55,45 @@ def get_ftp_folder():
 
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+    
+   
+@Folder_blueprint.route('/get_production_folders', methods=['POST'])
+def get_production_folders():
+    user_Id = request.json.get('user_id')
+
+    if user_Id is None:
+        return jsonify({'error': 'User ID is not provided'}), 400
+    
+    try:
+        cursor.execute("SELECT raison_sociale FROM TriSQR_Folder WHERE affectation = ? AND positionRefId = 3", (user_Id))
+        folders = cursor.fetchall()
+        
+        response = [folder[0] for folder in folders]
+        return jsonify(response)
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+
+@Folder_blueprint.route('/get_folderName_by_Id', methods=['POST'])
+def get_folderName_by_Id():
+    folder_id = request.json.get('folder_id')
+
+    if folder_id is None:
+        return jsonify({'error': 'User ID is not provided'}), 400
+    
+    try:
+        cursor.execute("SELECT raison_sociale FROM TriSQR_Folder WHERE Id = ?", (folder_id))
+        folders = cursor.fetchone()[0]
+        
+        response = folders
+        return jsonify(response)
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+    
+
+
 
     
     
